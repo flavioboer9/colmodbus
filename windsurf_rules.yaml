@@ -1,0 +1,80 @@
+# windsurf_rules.yaml
+# Regras e diretrizes para o projeto de comunicação Modbus TCP entre
+# Raspberry Pi e CLP Mitsubishi FX5U utilizando a biblioteca pymodbus.
+# Estas regras orientarão a IDE Windsurf a gerar código consistente e modular.
+
+project:
+  name: "ModbusIntegration"
+  description: >
+    Projeto para comunicação entre um Raspberry Pi (Linux) e um CLP Mitsubishi FX5U
+    via Modbus TCP utilizando a biblioteca pymodbus.
+  language: "Python"
+  architecture: >
+    O sistema será dividido em camadas:
+      1. Comunicação Modbus: implementação das chamadas de leitura e escrita com pymodbus.
+      2. Lógica de Aplicação: processamento dos dados (inteiros, floats, booleans) e regras de negócio.
+      3. Interface e Utilitários: gerenciamento de configuração, logging, conversão de dados e testes.
+
+naming:
+  classes:
+    - Devem ser nomeadas em PascalCase.
+    - Classes relacionadas a Modbus devem iniciar com o prefixo "Modbus" (por ex.: ModbusClientManager, ModbusDataConverter).
+  methods:
+    - Devem ser nomeados em snake_case.
+  variables:
+    - Variáveis globais e constantes devem ser em MAIÚSCULAS com _ como separador.
+  files:
+    - O arquivo principal deve ser "main.py".
+    - Configurações específicas ficarão em "config.py".
+
+structure:
+  directories:
+    - src/:
+        description: "Código fonte do projeto."
+        subdirectories:
+          communication/:
+            description: "Módulos que encapsulam a comunicação com pymodbus (cliente, servidor, conversores)."
+          application/:
+            description: "Lógica de negócio e processamento de dados."
+          utils/:
+            description: "Funções utilitárias (ex.: conversores de tipos, validação, logging)."
+    - docs/:
+        description: "Documentação interna do projeto e guias de uso."
+  files:
+    - requirements.txt:
+        description: "Lista de dependências (pymodbus>=3.8.0, etc.)."
+    - README.md:
+        description: "Visão geral do projeto e instruções de uso."
+
+dependencies:
+  - pymodbus: ">=3.8.0"
+  - (outras dependências se necessárias, ex.: pyserial para RS-485)
+
+development:
+  guidelines:
+    - "Utilizar PEP 8 como padrão de formatação."
+    - "Tratar erros de comunicação com logging robusto e reconexão automática quando necessário."
+    - "Documentar cada classe e método com docstrings claras."
+    - "Organizar o código de forma modular para facilitar futuras expansões (ex.: suporte a operações assíncronas)."
+  #version_control:
+    #branch_naming: "feature/<descrição> para novas funcionalidades; bugfix/<descrição> para correções."
+  coding_style:
+    - "Comentários explicativos em trechos de lógica complexa, especialmente nas funções de conversão de registros (inteiro, float, boolean)."
+    - "Evitar código duplicado: utilizar funções auxiliares para operações comuns (ex.: leitura em bloco)."
+
+ai_assistance:
+  windsufile:
+    purpose: >
+      Este arquivo de regras deve ser utilizado pela IDE Windsurf para orientar a geração
+      de código e as sugestões de refatoração, garantindo que as classes e funções estejam
+      de acordo com a arquitetura definida para o projeto.
+  context:
+    - "Projeto de comunicação Modbus TCP usando pymodbus."
+    - "Foco em leitura e escrita de coils, holding registers e input registers."
+    - "Conversão de dados (inteiros, floats, booleans) deve ser tratada de forma modular."
+    - "A camada de comunicação deve encapsular as chamadas diretas da biblioteca pymodbus."
+  rules:
+    - "Utilizar PEP 8 como padrão de formatação."
+    - "Tratar erros de comunicação com logging robusto e reconexão automática quando necessário."
+    - "Documentar cada classe e método com docstrings claras."
+    - "Organizar o código de forma modular para facilitar futuras expansões (ex.: suporte a operações assíncronas)."
