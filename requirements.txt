@@ -1,3 +1,4 @@
 pymodbus>=3.8.0
+streamlit>=1.32.0
 # Outras dependências potenciais
 # pyserial  # Para comunicação RS-485 se necessário
