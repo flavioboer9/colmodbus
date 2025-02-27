@@ -86,4 +86,7 @@ O projeto inclui configurações para depuração no VS Code. Você pode iniciar
 
 ## Logs
 
-Os logs da aplicação são armazenados em `modbus_app.log` e contêm informações detalhadas sobre a comunicação Modbus, incluindo conexões, leituras, escritas e erros.
+Os logs da aplicação são armazenados em `modbus_app.log` e contém informações detalhadas sobre a comunicação Modbus, incluindo conexões, leituras, escritas e erros.
+
+
+github: https://github.com/dmin/modbus
