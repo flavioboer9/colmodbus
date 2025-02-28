@@ -101,8 +101,100 @@ if 'last_full_refresh' not in st.session_state:
     if st.session_state.servidor_conectado:
         st.session_state.valores_registros = ler_registros_modbus()
 
-# Título da aplicação
-st.markdown("<h1>Monitoramento Modbus</h1>", unsafe_allow_html=True)
+# Adicionar título e botão de refresh na mesma linha
+col1, col2 = st.columns([0.9, 0.1])
+with col1:
+    st.title("Monitoramento Modbus")
+with col2:
+    st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)
+    refresh_button = st.button("↻", help="Atualizar agora", key="refresh_button")
+    
+    # Estilo para o botão
+    st.markdown("""
+    <style>
+    [data-testid="stButton"] > button {
+        background-color: #FFB74D;
+        color: white;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# Usar um container customizado para o conteúdo
+custom_container = st.container()
+
+# Dentro do container customizado, criar o HTML para o conteúdo
+with custom_container:
+    # Adicionar o status de conexão
+    status_class = "connected" if st.session_state.servidor_conectado else "disconnected"
+    status_text = "Servidor Modbus Conectado" if st.session_state.servidor_conectado else "Servidor Modbus Desconectado"
+    
+    # Exibir o status de conexão
+    st.markdown(f'''
+    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+        <div class="connection-status {status_class}"></div>
+        <span>{status_text}</span>
+    </div>
+    ''', unsafe_allow_html=True)
+    
+    # Adicionar espaço após o status
+    st.markdown('<div style="height: 20px;"></div>', unsafe_allow_html=True)
+    
+    # Adicionar os valores dos registros se disponíveis
+    if st.session_state.servidor_conectado and st.session_state.valores_registros:
+        valores_registros = st.session_state.valores_registros
+        
+        # Primeira linha: Ativar e Entregar
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            ativar_valor = "LIGADO (1)" if valores_registros["ativar"] else "DESLIGADO (0)"
+            ativar_class = "modbus-true" if valores_registros["ativar"] else "modbus-false"
+            st.markdown(f'''
+            <div class="modbus-row">
+                <div class="modbus-label">Ativar:</div>
+                <div class="modbus-value {ativar_class}">{ativar_valor}</div>
+            </div>
+            ''', unsafe_allow_html=True)
+        
+        with col2:
+            entregar_valor = "LIGADO (1)" if valores_registros["entregar"] else "DESLIGADO (0)"
+            entregar_class = "modbus-true" if valores_registros["entregar"] else "modbus-false"
+            st.markdown(f'''
+            <div class="modbus-row">
+                <div class="modbus-label">Entregar:</div>
+                <div class="modbus-value {entregar_class}">{entregar_valor}</div>
+            </div>
+            ''', unsafe_allow_html=True)
+        
+        # Segunda linha: Gaveta e Posição Gaveta
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown(f'''
+            <div class="modbus-row">
+                <div class="modbus-label">Gaveta:</div>
+                <div class="modbus-value modbus-number">{valores_registros["gaveta"]}</div>
+            </div>
+            ''', unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown(f'''
+            <div class="modbus-row">
+                <div class="modbus-label">Pos. Gaveta:</div>
+                <div class="modbus-value modbus-number">{valores_registros["posicao_gaveta"]}</div>
+            </div>
+            ''', unsafe_allow_html=True)
+    else:
+        # Exibir mensagem se o servidor estiver desconectado
+        if not st.session_state.servidor_conectado:
+            st.warning("Servidor Modbus desconectado. Verifique a conexão e reinicie a aplicação.")
+    
+    # Processar o clique no botão de atualização
+    if refresh_button:
+        st.session_state.servidor_conectado = verificar_conexao_modbus()
+        if st.session_state.servidor_conectado:
+            st.session_state.valores_registros = ler_registros_modbus()
+        st.rerun()
 
 # Aplicar CSS personalizado
 st.markdown("""
@@ -167,82 +259,10 @@ st.markdown("""
     align-items: center;
     margin-bottom: 20px;
 }
+button[kind="secondary"] {
+    background-color: #FFB74D !important;
+    color: white !important;
+    border: none !important;
+}
 </style>
 """, unsafe_allow_html=True)
-
-# Usar um container customizado para o conteúdo
-custom_container = st.container()
-
-# Dentro do container customizado, criar o HTML para o conteúdo
-with custom_container:
-    # Adicionar o status de conexão
-    status_class = "connected" if st.session_state.servidor_conectado else "disconnected"
-    status_text = "Servidor Modbus Conectado" if st.session_state.servidor_conectado else "Servidor Modbus Desconectado"
-    
-    st.markdown(f'''
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <div style="display: flex; align-items: center;">
-            <div class="connection-status {status_class}"></div>
-            <span>{status_text}</span>
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
-    
-    # Adicionar os valores dos registros se disponíveis
-    if st.session_state.servidor_conectado and st.session_state.valores_registros:
-        valores_registros = st.session_state.valores_registros
-        
-        # Primeira linha: Ativar e Entregar
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            ativar_valor = "LIGADO (1)" if valores_registros["ativar"] else "DESLIGADO (0)"
-            ativar_class = "modbus-true" if valores_registros["ativar"] else "modbus-false"
-            st.markdown(f'''
-            <div class="modbus-row">
-                <div class="modbus-label">Ativar:</div>
-                <div class="modbus-value {ativar_class}">{ativar_valor}</div>
-            </div>
-            ''', unsafe_allow_html=True)
-        
-        with col2:
-            entregar_valor = "LIGADO (1)" if valores_registros["entregar"] else "DESLIGADO (0)"
-            entregar_class = "modbus-true" if valores_registros["entregar"] else "modbus-false"
-            st.markdown(f'''
-            <div class="modbus-row">
-                <div class="modbus-label">Entregar:</div>
-                <div class="modbus-value {entregar_class}">{entregar_valor}</div>
-            </div>
-            ''', unsafe_allow_html=True)
-        
-        # Segunda linha: Gaveta e Posição Gaveta
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown(f'''
-            <div class="modbus-row">
-                <div class="modbus-label">Gaveta:</div>
-                <div class="modbus-value modbus-number">{valores_registros["gaveta"]}</div>
-            </div>
-            ''', unsafe_allow_html=True)
-        
-        with col2:
-            st.markdown(f'''
-            <div class="modbus-row">
-                <div class="modbus-label">Pos. Gaveta:</div>
-                <div class="modbus-value modbus-number">{valores_registros["posicao_gaveta"]}</div>
-            </div>
-            ''', unsafe_allow_html=True)
-    else:
-        # Exibir mensagem se o servidor estiver desconectado
-        if not st.session_state.servidor_conectado:
-            st.warning("Servidor Modbus desconectado. Verifique a conexão e reinicie a aplicação.")
-    
-    # Adicionar o botão de atualização fora do HTML personalizado
-    col1, col2 = st.columns([10, 1])
-    with col2:
-        if st.button("↻", help="Atualizar agora"):
-            st.session_state.servidor_conectado = verificar_conexao_modbus()
-            if st.session_state.servidor_conectado:
-                st.session_state.valores_registros = ler_registros_modbus()
-            st.rerun()
