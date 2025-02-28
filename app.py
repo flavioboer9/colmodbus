@@ -251,7 +251,7 @@ with custom_container:
             
             # Botão para enviar os valores
             enviar_button = st.form_submit_button(
-                label="Enviar Valores",
+                label="Enviar novos dados para o servidor",
                 type="primary"
             )
             
