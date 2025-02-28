@@ -97,15 +97,8 @@ if 'last_full_refresh' not in st.session_state:
     st.session_state.valores_registros = None
     st.session_state.modbus_host = "127.0.0.1"
     st.session_state.modbus_port = 5020
-    st.session_state.servidor_conectado = verificar_conexao_modbus(
-        host=st.session_state.modbus_host,
-        port=st.session_state.modbus_port
-    )
-    if st.session_state.servidor_conectado:
-        st.session_state.valores_registros = ler_registros_modbus(
-            host=st.session_state.modbus_host,
-            port=st.session_state.modbus_port
-        )
+    # Iniciar com o servidor desconectado
+    st.session_state.servidor_conectado = False
 
 # Adicionar título e botão de refresh na mesma linha
 col1, col2 = st.columns([0.9, 0.1])
@@ -127,7 +120,7 @@ with col2:
 
 # Verificar se é hora de atualizar automaticamente (a cada refresh_interval segundos)
 current_time = time.time()
-if current_time - st.session_state.last_full_refresh > st.session_state.refresh_interval:
+if st.session_state.servidor_conectado and current_time - st.session_state.last_full_refresh > st.session_state.refresh_interval:
     # Atualizar o timestamp da última atualização
     st.session_state.last_full_refresh = current_time
     
