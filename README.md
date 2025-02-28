@@ -86,6 +86,9 @@ streamlit run app.py --server.address 0.0.0.0
 
 # Acessar a interface através do navegador em:
 # http://localhost:8501
+
+# Ou iniciar o Firefox diretamente na URL do Streamlit (em outro terminal)
+firefox http://localhost:8501
 ```
 
 ### Executando a Aplicação Principal via Linha de Comando
