@@ -61,14 +61,17 @@ sudo apt install -y python3 python3-pip
 # 5. Instalar dependências do sistema necessárias
 sudo apt install -y build-essential libssl-dev libffi-dev python3-dev
 
-# 6. Clonar o repositório
-git clone https://github.com/flavioboer9/colmodbus.git
-cd colmodbus
+# 6. Criar diretório para o projeto
+mkdir -p ~/colmodbus
+cd ~/colmodbus
 
-# 7. Instalar as dependências do projeto
+# 7. Clonar o repositório
+git clone https://github.com/flavioboer9/colmodbus.git .
+
+# 8. Instalar as dependências do projeto
 pip3 install -r requirements.txt
 
-# 8. Tornar os scripts executáveis
+# 9. Tornar os scripts executáveis
 chmod +x src/main.py
 chmod +x src/start_mock_server.py
 ```
