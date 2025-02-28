@@ -195,7 +195,94 @@ with custom_container:
         if st.session_state.servidor_conectado:
             st.session_state.valores_registros = ler_registros_modbus()
         st.rerun()
-
+    
+    # Adicionar seção para enviar novos valores para o servidor
+    if st.session_state.servidor_conectado:
+        st.markdown("### Enviar novos valores para o servidor")
+        
+        # Criar formulário para envio de novos valores
+        with st.form(key="enviar_valores_form"):
+            col1, col2 = st.columns(2)
+            
+            # Primeira linha: Ativar e Entregar (boolean)
+            with col1:
+                novo_ativar = st.selectbox(
+                    "Novo valor para Ativar:",
+                    options=["Selecione...", "LIGADO", "DESLIGADO"],
+                    index=0
+                )
+            
+            with col2:
+                novo_entregar = st.selectbox(
+                    "Novo valor para Entregar:",
+                    options=["Selecione...", "LIGADO", "DESLIGADO"],
+                    index=0
+                )
+            
+            # Segunda linha: Gaveta e Posição Gaveta (numeric)
+            with col1:
+                novo_gaveta = st.number_input(
+                    "Novo valor para Gaveta:",
+                    min_value=0,
+                    max_value=100,
+                    value=0
+                )
+            
+            with col2:
+                novo_posicao_gaveta = st.number_input(
+                    "Novo valor para Pos. Gaveta:",
+                    min_value=0,
+                    max_value=100,
+                    value=0
+                )
+            
+            # Botão para enviar os valores
+            enviar_button = st.form_submit_button(
+                label="Enviar valores para o servidor",
+                type="primary"
+            )
+            
+            # Processar o envio dos valores quando o botão for clicado
+            if enviar_button:
+                import subprocess
+                import os
+                
+                # Preparar os argumentos para o comando
+                cmd = ["python", os.path.join(os.getcwd(), "src/main.py")]
+                
+                # Adicionar argumentos apenas para os campos que foram preenchidos
+                if novo_ativar != "Selecione...":
+                    cmd.append("--new-ativar")
+                    cmd.append("true" if novo_ativar == "LIGADO" else "false")
+                
+                if novo_entregar != "Selecione...":
+                    cmd.append("--new-entregar")
+                    cmd.append("true" if novo_entregar == "LIGADO" else "false")
+                
+                if novo_gaveta > 0:
+                    cmd.append("--new-gaveta")
+                    cmd.append(str(novo_gaveta))
+                
+                if novo_posicao_gaveta > 0:
+                    cmd.append("--new-posicao-gaveta")
+                    cmd.append(str(novo_posicao_gaveta))
+                
+                # Executar o comando apenas se algum valor foi selecionado
+                if len(cmd) > 2:
+                    try:
+                        result = subprocess.run(cmd, capture_output=True, text=True)
+                        if result.returncode == 0:
+                            st.success("Valores enviados com sucesso para o servidor!")
+                            # Atualizar os valores exibidos
+                            st.session_state.valores_registros = ler_registros_modbus()
+                            st.rerun()
+                        else:
+                            st.error(f"Erro ao enviar valores: {result.stderr}")
+                    except Exception as e:
+                        st.error(f"Erro ao executar o comando: {str(e)}")
+                else:
+                    st.warning("Nenhum valor foi selecionado para enviar.")
+    
 # Aplicar CSS personalizado
 st.markdown("""
 <style>
