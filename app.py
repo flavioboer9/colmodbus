@@ -207,34 +207,42 @@ with custom_container:
             
             # Primeira linha: Ativar e Entregar (boolean)
             with col1:
+                st.markdown('<div class="modbus-label" style="color: #2e7d32;">Novo valor para Ativar:</div>', unsafe_allow_html=True)
                 novo_ativar = st.selectbox(
-                    "Novo valor para Ativar:",
+                    "",
                     options=["Selecione...", "LIGADO", "DESLIGADO"],
-                    index=0
+                    index=0,
+                    label_visibility="collapsed"
                 )
             
             with col2:
+                st.markdown('<div class="modbus-label" style="color: #c62828;">Novo valor para Entregar:</div>', unsafe_allow_html=True)
                 novo_entregar = st.selectbox(
-                    "Novo valor para Entregar:",
+                    "",
                     options=["Selecione...", "LIGADO", "DESLIGADO"],
-                    index=0
+                    index=0,
+                    label_visibility="collapsed"
                 )
             
             # Segunda linha: Gaveta e Posição Gaveta (numeric)
             with col1:
+                st.markdown('<div class="modbus-label" style="color: #1a73e8;">Novo valor para Gaveta:</div>', unsafe_allow_html=True)
                 novo_gaveta = st.number_input(
-                    "Novo valor para Gaveta:",
+                    "",
                     min_value=0,
                     max_value=100,
-                    value=0
+                    value=0,
+                    label_visibility="collapsed"
                 )
             
             with col2:
+                st.markdown('<div class="modbus-label" style="color: #1a73e8;">Novo valor para Pos. Gaveta:</div>', unsafe_allow_html=True)
                 novo_posicao_gaveta = st.number_input(
-                    "Novo valor para Pos. Gaveta:",
+                    "",
                     min_value=0,
                     max_value=100,
-                    value=0
+                    value=0,
+                    label_visibility="collapsed"
                 )
             
             # Botão para enviar os valores
@@ -367,6 +375,38 @@ button[kind="secondary"] {
     padding: 0 10px;
     font-weight: 500;
     color: #555;
+}
+
+/* Estilos para os labels do formulário */
+div[data-testid="stForm"] label {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilos específicos para cada tipo de input */
+div[data-testid="stForm"] label:contains("Ativar") {
+    color: #2e7d32;
+}
+
+div[data-testid="stForm"] label:contains("Entregar") {
+    color: #c62828;
+}
+
+div[data-testid="stForm"] label:contains("Gaveta") {
+    color: #1a73e8;
+}
+
+div[data-testid="stForm"] label:contains("Pos. Gaveta") {
+    color: #1a73e8;
+}
+
+/* Estilizando os inputs */
+div[data-testid="stForm"] div[data-baseweb="select"] {
+    border-radius: 4px;
+}
+
+div[data-testid="stForm"] div[data-testid="stNumberInput"] {
+    border-radius: 4px;
 }
 </style>
 """, unsafe_allow_html=True)
