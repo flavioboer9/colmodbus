@@ -149,6 +149,9 @@ with custom_container:
             <div class="container-title">Dados do Servidor</div>
         ''', unsafe_allow_html=True)
         
+        # Adicionar espaço após o título
+        st.markdown('<div style="height: 10px;"></div>', unsafe_allow_html=True)
+        
         # Primeira linha: Ativar e Entregar
         col1, col2 = st.columns(2)
         
@@ -190,7 +193,7 @@ with custom_container:
                 <div class="modbus-value modbus-number">{valores_registros["posicao_gaveta"]}</div>
             </div>
             ''', unsafe_allow_html=True)
-            
+        
         # Fechar o container com borda
         st.markdown('</div>', unsafe_allow_html=True)
     else:
@@ -207,15 +210,6 @@ with custom_container:
     
     # Adicionar seção para enviar novos valores para o servidor
     if st.session_state.servidor_conectado:
-        # Adicionar espaço entre os containers
-        st.markdown('<div style="height: 20px;"></div>', unsafe_allow_html=True)
-        
-        # Abrir container com borda para o formulário
-        st.markdown('''
-        <div class="border-container">
-            <div class="container-title">Novos Valores</div>
-        ''', unsafe_allow_html=True)
-        
         # Criar formulário para envio de novos valores
         with st.form(key="enviar_valores_form"):
             col1, col2 = st.columns(2)
@@ -298,9 +292,6 @@ with custom_container:
                         st.error(f"Erro ao executar o comando: {str(e)}")
                 else:
                     st.warning("Nenhum valor foi selecionado para enviar.")
-        
-        # Fechar o container com borda
-        st.markdown('</div>', unsafe_allow_html=True)
     
 # Aplicar CSS personalizado
 st.markdown("""
@@ -346,6 +337,29 @@ st.markdown("""
 .modbus-number {
     background-color: #e8f0fe;
     color: #1a73e8;
+}
+.refresh-button {
+    background: none;
+    border: none;
+    color: #1a73e8;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 10px;
+    padding: 0;
+    vertical-align: middle;
+}
+.refresh-button:hover {
+    color: #174ea6;
+}
+.status-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+button[kind="secondary"] {
+    background-color: #FFB74D !important;
+    color: white !important;
+    border: none !important;
 }
 .border-container {
     border: 1px solid #e0e0e0;
