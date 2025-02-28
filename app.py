@@ -152,8 +152,8 @@ custom_container = st.container()
 
 # Dentro do container customizado, criar o HTML para o conteúdo
 with custom_container:
-    # Adicionar inputs para host e porta com botão de conexão
-    col1, col2, col3 = st.columns([2, 1, 1])
+    # Criar duas colunas para os inputs
+    col1, col2 = st.columns([2, 1])
     
     with col1:
         novo_host = st.text_input("Host", value=st.session_state.modbus_host, key="input_host")
@@ -161,6 +161,11 @@ with custom_container:
     with col2:
         novo_port = st.number_input("Porta", value=st.session_state.modbus_port, min_value=1, max_value=65535, step=1, key="input_port")
     
+    # Adicionar espaço pequeno
+    st.markdown('<div style="height: 5px;"></div>', unsafe_allow_html=True)
+    
+    # Adicionar o botão de conexão alinhado com os inputs
+    col1, col2, col3 = st.columns([2, 1, 1])
     with col3:
         conectar_button = st.button("Conectar", key="conectar_button")
     
