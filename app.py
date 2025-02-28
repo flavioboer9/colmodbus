@@ -124,19 +124,7 @@ custom_container = st.container()
 
 # Dentro do container customizado, criar o HTML para o conteúdo
 with custom_container:
-    # Adicionar o status de conexão
-    status_class = "connected" if st.session_state.servidor_conectado else "disconnected"
-    status_text = "Servidor Modbus Conectado" if st.session_state.servidor_conectado else "Servidor Modbus Desconectado"
-    
-    # Exibir o status de conexão
-    st.markdown(f'''
-    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-        <div class="connection-status {status_class}"></div>
-        <span>{status_text}</span>
-    </div>
-    ''', unsafe_allow_html=True)
-    
-    # Adicionar espaço após o status
+    # Adicionar espaço após o título
     st.markdown('<div style="height: 20px;"></div>', unsafe_allow_html=True)
     
     # Adicionar os valores dos registros se disponíveis
@@ -151,6 +139,18 @@ with custom_container:
         
         # Adicionar espaço após o título
         st.markdown('<div style="height: 10px;"></div>', unsafe_allow_html=True)
+        
+        # Adicionar o status de conexão dentro do container
+        status_class = "connected" if st.session_state.servidor_conectado else "disconnected"
+        status_text = "Servidor Modbus Conectado" if st.session_state.servidor_conectado else "Servidor Modbus Desconectado"
+        
+        # Exibir o status de conexão
+        st.markdown(f'''
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <div class="connection-status {status_class}"></div>
+            <span>{status_text}</span>
+        </div>
+        ''', unsafe_allow_html=True)
         
         # Primeira linha: Ativar e Entregar
         col1, col2 = st.columns(2)
