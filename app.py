@@ -106,9 +106,9 @@ st.title("Integração Raspberry - FX5")
 # Estilo para os botões
 st.markdown("""
 <style>
-[data-testid="stButton"] > button {
-    background-color: #FFB74D;
-    color: white;
+[data-testid="stButton"] > button, [data-testid="baseButton-primary"] {
+    background-color: #FFB74D !important;
+    color: white !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -154,7 +154,7 @@ with custom_container:
         st.markdown('<div style="height: 32px;"></div>', unsafe_allow_html=True)
         col4, col5 = st.columns([0.5, 0.5])
         with col4:
-            conectar_button = st.button("Conectar", key="conectar_button")
+            conectar_button = st.button("Conect", key="conectar_button")
         with col5:
             refresh_button = st.button("↻", help="Atualizar agora", key="refresh_button")
     
