@@ -100,23 +100,18 @@ if 'last_full_refresh' not in st.session_state:
     # Iniciar com o servidor desconectado
     st.session_state.servidor_conectado = False
 
-# Adicionar título e botão de refresh na mesma linha
-col1, col2 = st.columns([0.9, 0.1])
-with col1:
-    st.title("Integração Raspberry - FX5")
-with col2:
-    st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)
-    refresh_button = st.button("↻", help="Atualizar agora", key="refresh_button")
-    
-    # Estilo para o botão
-    st.markdown("""
-    <style>
-    [data-testid="stButton"] > button {
-        background-color: #FFB74D;
-        color: white;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+# Adicionar título
+st.title("Integração Raspberry - FX5")
+
+# Estilo para os botões
+st.markdown("""
+<style>
+[data-testid="stButton"] > button {
+    background-color: #FFB74D;
+    color: white;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # Verificar se é hora de atualizar automaticamente (a cada refresh_interval segundos)
 current_time = time.time()
@@ -157,7 +152,11 @@ with custom_container:
     with col3:
         # Adicionar espaço para alinhar o botão na parte inferior
         st.markdown('<div style="height: 32px;"></div>', unsafe_allow_html=True)
-        conectar_button = st.button("Conectar", key="conectar_button")
+        col4, col5 = st.columns([0.5, 0.5])
+        with col4:
+            conectar_button = st.button("Conectar", key="conectar_button")
+        with col5:
+            refresh_button = st.button("↻", help="Atualizar agora", key="refresh_button")
     
     # Processar o clique no botão de conexão
     if conectar_button:
