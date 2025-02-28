@@ -45,23 +45,30 @@ modbus/
 Siga os passos abaixo para instalar e configurar o projeto em uma máquina com Ubuntu Linux:
 
 ```bash
-# Atualizar os repositórios do sistema
+# 1. Atualizar os repositórios do sistema
 sudo apt update
+sudo apt upgrade -y
 
-# Instalar o Python e pip (caso ainda não estejam instalados)
+# 2. Instalar o Git (necessário para clonar o repositório)
+sudo apt install -y git
+
+# 3. Instalar um navegador web (Firefox)
+sudo apt install -y firefox
+
+# 4. Instalar o Python e pip
 sudo apt install -y python3 python3-pip
 
-# Instalar dependências do sistema necessárias para algumas bibliotecas Python
+# 5. Instalar dependências do sistema necessárias
 sudo apt install -y build-essential libssl-dev libffi-dev python3-dev
 
-# Clonar o repositório (se ainda não tiver o código)
+# 6. Clonar o repositório
 git clone https://github.com/flavioboer9/colmodbus.git
 cd colmodbus
 
-# Instalar as dependências do projeto
+# 7. Instalar as dependências do projeto
 pip3 install -r requirements.txt
 
-# Tornar os scripts executáveis (opcional)
+# 8. Tornar os scripts executáveis
 chmod +x src/main.py
 chmod +x src/start_mock_server.py
 ```
