@@ -318,8 +318,18 @@ with custom_container:
             # Botão para enviar os valores
             enviar_button = st.form_submit_button(
                 label="Enviar novos dados para o servidor",
-                type="primary"
+                use_container_width=True
             )
+            
+            # CSS personalizado para o botão de enviar
+            st.markdown("""
+            <style>
+            div[data-testid="stFormSubmitButton"] > button {
+                background-color: #FFB74D !important;
+                color: white !important;
+            }
+            </style>
+            """, unsafe_allow_html=True)
             
             # Processar o envio dos valores quando o botão for clicado
             if enviar_button:
