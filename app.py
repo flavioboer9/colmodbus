@@ -125,6 +125,28 @@ with col2:
     </style>
     """, unsafe_allow_html=True)
 
+# Verificar se é hora de atualizar automaticamente (a cada refresh_interval segundos)
+current_time = time.time()
+if current_time - st.session_state.last_full_refresh > st.session_state.refresh_interval:
+    # Atualizar o timestamp da última atualização
+    st.session_state.last_full_refresh = current_time
+    
+    # Verificar conexão usando os valores atuais de host e porta
+    st.session_state.servidor_conectado = verificar_conexao_modbus(
+        host=st.session_state.modbus_host,
+        port=st.session_state.modbus_port
+    )
+    
+    # Atualizar valores se o servidor estiver conectado
+    if st.session_state.servidor_conectado:
+        st.session_state.valores_registros = ler_registros_modbus(
+            host=st.session_state.modbus_host,
+            port=st.session_state.modbus_port
+        )
+    
+    # Recarregar a página para mostrar os valores atualizados
+    st.rerun()
+
 # Usar um container customizado para o conteúdo
 custom_container = st.container()
 
@@ -146,9 +168,15 @@ with custom_container:
     if conectar_button:
         # Atualizar host e porta na session state
         st.session_state.modbus_host = novo_host
-        st.session_state.modbus_port = novo_port
+        st.session_state.modbus_port = int(novo_port)
         # Verificar conexão com os novos valores
-        st.session_state.servidor_conectado = verificar_conexao_modbus(host=novo_host, port=novo_port)
+        st.session_state.servidor_conectado = verificar_conexao_modbus(host=novo_host, port=int(novo_port))
+        # Se conectado, atualizar os valores dos registros
+        if st.session_state.servidor_conectado:
+            st.session_state.valores_registros = ler_registros_modbus(
+                host=novo_host, 
+                port=int(novo_port)
+            )
         # Recarregar a página para aplicar as mudanças
         st.rerun()
     
@@ -226,14 +254,17 @@ with custom_container:
     
     # Processar o clique no botão de atualização
     if refresh_button:
+        # Usar os valores atuais de host e porta
+        host = st.session_state.modbus_host
+        port = st.session_state.modbus_port
         st.session_state.servidor_conectado = verificar_conexao_modbus(
-            host=st.session_state.modbus_host,
-            port=st.session_state.modbus_port
+            host=host,
+            port=port
         )
         if st.session_state.servidor_conectado:
             st.session_state.valores_registros = ler_registros_modbus(
-                host=st.session_state.modbus_host,
-                port=st.session_state.modbus_port
+                host=host,
+                port=port
             )
         st.rerun()
     
@@ -303,6 +334,12 @@ with custom_container:
                 
                 # Preparar os argumentos para o comando
                 cmd = ["python", os.path.join(os.getcwd(), "src/write_values.py")]
+                
+                # Adicionar host e porta atuais
+                cmd.append("--host")
+                cmd.append(st.session_state.modbus_host)
+                cmd.append("--port")
+                cmd.append(str(st.session_state.modbus_port))
                 
                 # Adicionar argumentos apenas para os campos que foram preenchidos
                 if novo_ativar != "Selecione...":
