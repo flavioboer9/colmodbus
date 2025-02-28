@@ -207,7 +207,7 @@ with custom_container:
             
             # Primeira linha: Ativar e Entregar (boolean)
             with col1:
-                st.markdown('<p style="font-weight: bold; color: #2e7d32; margin-bottom: 5px;">Novo valor para Ativar:</p>', unsafe_allow_html=True)
+                st.markdown('<p style="font-weight: bold; color: #000000; margin-bottom: 5px;">Novo valor para Ativar:</p>', unsafe_allow_html=True)
                 novo_ativar = st.selectbox(
                     label="Novo valor para Ativar:",
                     options=["Selecione...", "LIGADO", "DESLIGADO"],
@@ -217,7 +217,7 @@ with custom_container:
                 )
             
             with col2:
-                st.markdown('<p style="font-weight: bold; color: #c62828; margin-bottom: 5px;">Novo valor para Entregar:</p>', unsafe_allow_html=True)
+                st.markdown('<p style="font-weight: bold; color: #000000; margin-bottom: 5px;">Novo valor para Entregar:</p>', unsafe_allow_html=True)
                 novo_entregar = st.selectbox(
                     label="Novo valor para Entregar:",
                     options=["Selecione...", "LIGADO", "DESLIGADO"],
@@ -228,7 +228,7 @@ with custom_container:
             
             # Segunda linha: Gaveta e Posição Gaveta (numeric)
             with col1:
-                st.markdown('<p style="font-weight: bold; color: #1a73e8; margin-bottom: 5px;">Novo valor para Gaveta:</p>', unsafe_allow_html=True)
+                st.markdown('<p style="font-weight: bold; color: #000000; margin-bottom: 5px;">Novo valor para Gaveta:</p>', unsafe_allow_html=True)
                 novo_gaveta = st.number_input(
                     label="Novo valor para Gaveta:",
                     min_value=0,
@@ -239,7 +239,7 @@ with custom_container:
                 )
             
             with col2:
-                st.markdown('<p style="font-weight: bold; color: #1a73e8; margin-bottom: 5px;">Novo valor para Pos. Gaveta:</p>', unsafe_allow_html=True)
+                st.markdown('<p style="font-weight: bold; color: #000000; margin-bottom: 5px;">Novo valor para Pos. Gaveta:</p>', unsafe_allow_html=True)
                 novo_posicao_gaveta = st.number_input(
                     label="Novo valor para Pos. Gaveta:",
                     min_value=0,
@@ -384,23 +384,7 @@ button[kind="secondary"] {
 /* Estilos para os labels do formulário */
 [data-testid="stForm"] label {
     font-weight: bold !important;
-}
-
-/* Cores específicas para cada tipo de input */
-[data-baseweb="select"] label:contains("Ativar") {
-    color: #2e7d32 !important;
-}
-
-[data-baseweb="select"] label:contains("Entregar") {
-    color: #c62828 !important;
-}
-
-[data-testid="stNumberInput"] label:contains("Gaveta") {
-    color: #1a73e8 !important;
-}
-
-[data-testid="stNumberInput"] label:contains("Pos. Gaveta") {
-    color: #1a73e8 !important;
+    color: #000000 !important;
 }
 </style>
 """, unsafe_allow_html=True)
