@@ -207,47 +207,51 @@ with custom_container:
             
             # Primeira linha: Ativar e Entregar (boolean)
             with col1:
-                st.markdown('<div class="modbus-label" style="color: #2e7d32;">Novo valor para Ativar:</div>', unsafe_allow_html=True)
+                st.markdown('<p style="font-weight: bold; color: #2e7d32; margin-bottom: 5px;">Novo valor para Ativar:</p>', unsafe_allow_html=True)
                 novo_ativar = st.selectbox(
-                    "",
+                    label="Novo valor para Ativar:",
                     options=["Selecione...", "LIGADO", "DESLIGADO"],
                     index=0,
+                    key="novo_ativar_select",
                     label_visibility="collapsed"
                 )
             
             with col2:
-                st.markdown('<div class="modbus-label" style="color: #c62828;">Novo valor para Entregar:</div>', unsafe_allow_html=True)
+                st.markdown('<p style="font-weight: bold; color: #c62828; margin-bottom: 5px;">Novo valor para Entregar:</p>', unsafe_allow_html=True)
                 novo_entregar = st.selectbox(
-                    "",
+                    label="Novo valor para Entregar:",
                     options=["Selecione...", "LIGADO", "DESLIGADO"],
                     index=0,
+                    key="novo_entregar_select",
                     label_visibility="collapsed"
                 )
             
             # Segunda linha: Gaveta e Posição Gaveta (numeric)
             with col1:
-                st.markdown('<div class="modbus-label" style="color: #1a73e8;">Novo valor para Gaveta:</div>', unsafe_allow_html=True)
+                st.markdown('<p style="font-weight: bold; color: #1a73e8; margin-bottom: 5px;">Novo valor para Gaveta:</p>', unsafe_allow_html=True)
                 novo_gaveta = st.number_input(
-                    "",
+                    label="Novo valor para Gaveta:",
                     min_value=0,
                     max_value=100,
                     value=0,
+                    key="novo_gaveta_input",
                     label_visibility="collapsed"
                 )
             
             with col2:
-                st.markdown('<div class="modbus-label" style="color: #1a73e8;">Novo valor para Pos. Gaveta:</div>', unsafe_allow_html=True)
+                st.markdown('<p style="font-weight: bold; color: #1a73e8; margin-bottom: 5px;">Novo valor para Pos. Gaveta:</p>', unsafe_allow_html=True)
                 novo_posicao_gaveta = st.number_input(
-                    "",
+                    label="Novo valor para Pos. Gaveta:",
                     min_value=0,
                     max_value=100,
                     value=0,
+                    key="novo_posicao_gaveta_input",
                     label_visibility="collapsed"
                 )
             
             # Botão para enviar os valores
             enviar_button = st.form_submit_button(
-                label="Enviar valores para o servidor",
+                label="Enviar Valores",
                 type="primary"
             )
             
@@ -378,35 +382,25 @@ button[kind="secondary"] {
 }
 
 /* Estilos para os labels do formulário */
-div[data-testid="stForm"] label {
-    font-weight: bold;
-    color: #333;
+[data-testid="stForm"] label {
+    font-weight: bold !important;
 }
 
-/* Estilos específicos para cada tipo de input */
-div[data-testid="stForm"] label:contains("Ativar") {
-    color: #2e7d32;
+/* Cores específicas para cada tipo de input */
+[data-baseweb="select"] label:contains("Ativar") {
+    color: #2e7d32 !important;
 }
 
-div[data-testid="stForm"] label:contains("Entregar") {
-    color: #c62828;
+[data-baseweb="select"] label:contains("Entregar") {
+    color: #c62828 !important;
 }
 
-div[data-testid="stForm"] label:contains("Gaveta") {
-    color: #1a73e8;
+[data-testid="stNumberInput"] label:contains("Gaveta") {
+    color: #1a73e8 !important;
 }
 
-div[data-testid="stForm"] label:contains("Pos. Gaveta") {
-    color: #1a73e8;
-}
-
-/* Estilizando os inputs */
-div[data-testid="stForm"] div[data-baseweb="select"] {
-    border-radius: 4px;
-}
-
-div[data-testid="stForm"] div[data-testid="stNumberInput"] {
-    border-radius: 4px;
+[data-testid="stNumberInput"] label:contains("Pos. Gaveta") {
+    color: #1a73e8 !important;
 }
 </style>
 """, unsafe_allow_html=True)
