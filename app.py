@@ -130,6 +130,28 @@ custom_container = st.container()
 
 # Dentro do container customizado, criar o HTML para o conteúdo
 with custom_container:
+    # Adicionar inputs para host e porta com botão de conexão
+    col1, col2, col3 = st.columns([2, 1, 1])
+    
+    with col1:
+        novo_host = st.text_input("Host", value=st.session_state.modbus_host, key="input_host")
+    
+    with col2:
+        novo_port = st.number_input("Porta", value=st.session_state.modbus_port, min_value=1, max_value=65535, step=1, key="input_port")
+    
+    with col3:
+        conectar_button = st.button("Conectar", key="conectar_button")
+    
+    # Processar o clique no botão de conexão
+    if conectar_button:
+        # Atualizar host e porta na session state
+        st.session_state.modbus_host = novo_host
+        st.session_state.modbus_port = novo_port
+        # Verificar conexão com os novos valores
+        st.session_state.servidor_conectado = verificar_conexao_modbus(host=novo_host, port=novo_port)
+        # Recarregar a página para aplicar as mudanças
+        st.rerun()
+    
     # Adicionar o status de conexão
     status_class = "connected" if st.session_state.servidor_conectado else "disconnected"
     host = st.session_state.modbus_host  # Default host
