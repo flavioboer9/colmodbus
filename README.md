@@ -19,7 +19,7 @@ modbus/
 │   ├── communication/     # Módulos de comunicação com pymodbus
 │   ├── utils/             # Funções utilitárias
 │   ├── config.py          # Configurações do sistema
-│   ├── main.py            # Ponto de entrada principal da aplicação
+│   ├── write_values.py    # Script para escrita de valores no servidor Modbus
 │   └── start_mock_server.py # Servidor Modbus simulado para testes
 ├── modbus_app.log         # Arquivo de log da aplicação
 ├── requirements.txt       # Dependências do projeto
@@ -72,7 +72,7 @@ git clone https://github.com/flavioboer9/colmodbus.git .
 pip3 install -r requirements.txt
 
 # 9. Tornar os scripts executáveis
-chmod +x src/main.py
+chmod +x src/write_values.py
 chmod +x src/start_mock_server.py
 ```
 
@@ -95,13 +95,13 @@ firefox http://localhost:8501
 
 ```bash
 # Usando as configurações padrão (localhost:5020)
-python3 src/main.py
+python3 src/write_values.py
 
 # Especificando um servidor diferente
-python3 src/main.py --host 192.168.1.10 --port 502
+python3 src/write_values.py --host 192.168.1.10 --port 502
 
 # Escrevendo valores nas tags
-python3 src/main.py --new-ativar true --new-entregar false --new-gaveta 5
+python3 src/write_values.py --new-ativar true --new-entregar false --new-gaveta 5
 ```
 
 ### Executando o Servidor Mock para Testes

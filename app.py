@@ -280,7 +280,7 @@ with custom_container:
                 import os
                 
                 # Preparar os argumentos para o comando
-                cmd = ["python", os.path.join(os.getcwd(), "src/main.py")]
+                cmd = ["python", os.path.join(os.getcwd(), "src/write_values.py")]
                 
                 # Adicionar argumentos apenas para os campos que foram preenchidos
                 if novo_ativar != "Selecione...":
