@@ -198,8 +198,6 @@ with custom_container:
     
     # Adicionar seção para enviar novos valores para o servidor
     if st.session_state.servidor_conectado:
-        st.markdown("### Enviar novos valores para o servidor")
-        
         # Criar formulário para envio de novos valores
         with st.form(key="enviar_valores_form"):
             col1, col2 = st.columns(2)
