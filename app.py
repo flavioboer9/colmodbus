@@ -194,7 +194,7 @@ with custom_container:
             st.markdown(f'''
             <div class="modbus-row">
                 <div class="modbus-label">Pos. Gaveta:</div>
-                <div class="modbus-value modbus-yellow">{valores_registros["posicao_gaveta"]}</div>
+                <div class="modbus-value modbus-number">{valores_registros["posicao_gaveta"]}</div>
             </div>
             ''', unsafe_allow_html=True)
     else:
@@ -362,10 +362,6 @@ st.markdown("""
 .modbus-number {
     background-color: #e8f0fe;
     color: #1a73e8;
-}
-.modbus-yellow {
-    background-color: #ffffcc;
-    color: #666666;
 }
 .refresh-button {
     background: none;
