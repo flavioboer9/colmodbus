@@ -198,13 +198,8 @@ with custom_container:
     
     # Adicionar seção para enviar novos valores para o servidor
     if st.session_state.servidor_conectado:
-        # Adicionar espaço entre os containers
+        # Adicionar espaço entre as seções
         st.markdown('<div style="height: 20px;"></div>', unsafe_allow_html=True)
-        
-        # Abrir container com borda para o formulário
-        st.markdown('''
-        <div class="border-container">
-        ''', unsafe_allow_html=True)
         
         # Criar formulário para envio de novos valores
         with st.form(key="enviar_valores_form"):
@@ -288,9 +283,6 @@ with custom_container:
                         st.error(f"Erro ao executar o comando: {str(e)}")
                 else:
                     st.warning("Nenhum valor foi selecionado para enviar.")
-        
-        # Fechar o container com borda
-        st.markdown('</div>', unsafe_allow_html=True)
     
 # Aplicar CSS personalizado
 st.markdown("""
