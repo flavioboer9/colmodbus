@@ -38,46 +38,67 @@ modbus/
 
 - Python 3.8 ou superior
 - pymodbus >= 3.8.0
+- streamlit >= 1.32.0
 
-## Configuração do Ambiente
+## Instalação no Ubuntu Linux
+
+Siga os passos abaixo para instalar e configurar o projeto em uma máquina com Ubuntu Linux:
 
 ```bash
-# Criar o ambiente virtual
-python -m venv venv
+# Atualizar os repositórios do sistema
+sudo apt update
 
-# Ativar o ambiente virtual
-# No Linux/Mac:
-source venv/bin/activate
-# No Windows:
-# venv\Scripts\activate
+# Instalar o Python e pip (caso ainda não estejam instalados)
+sudo apt install -y python3 python3-pip
 
-# Instalar dependências
-pip install -r requirements.txt
+# Instalar dependências do sistema necessárias para algumas bibliotecas Python
+sudo apt install -y build-essential libssl-dev libffi-dev python3-dev
+
+# Clonar o repositório (se ainda não tiver o código)
+git clone https://github.com/flavioboer9/colmodbus.git
+cd colmodbus
+
+# Instalar as dependências do projeto
+pip3 install -r requirements.txt
+
+# Tornar os scripts executáveis (opcional)
+chmod +x src/main.py
+chmod +x src/start_mock_server.py
 ```
 
 ## Uso
 
-### Executando a Aplicação Principal
+### Executando a Aplicação Streamlit
+
+```bash
+# Iniciar a interface web Streamlit
+streamlit run app.py --server.address 0.0.0.0
+
+# Acessar a interface através do navegador em:
+# http://localhost:8501
+```
+
+### Executando a Aplicação Principal via Linha de Comando
 
 ```bash
 # Usando as configurações padrão (localhost:5020)
-python src/main.py
+python3 src/main.py
 
 # Especificando um servidor diferente
-python src/main.py --host 192.168.1.10 --port 502
+python3 src/main.py --host 192.168.1.10 --port 502
 
 # Escrevendo valores nas tags
-python src/main.py --new-ativar true --new-entregar false --new-gaveta 5
+python3 src/main.py --new-ativar true --new-entregar false --new-gaveta 5
 ```
 
 ### Executando o Servidor Mock para Testes
 
 ```bash
 # Iniciar o servidor mock na porta padrão (5020)
-python src/start_mock_server.py
+python3 src/start_mock_server.py
 
 # Especificar um endereço/porta diferente
-python src/start_mock_server.py 192.168.1.100 5000
+python3 src/start_mock_server.py 192.168.1.100 5000
 ```
 
 ## Configuração VS Code
