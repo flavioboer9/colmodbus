@@ -104,7 +104,7 @@ if 'last_full_refresh' not in st.session_state:
 # Adicionar título e botão de refresh na mesma linha
 col1, col2 = st.columns([0.9, 0.1])
 with col1:
-    st.title("Monitoramento Modbus")
+    st.title("Integração Raspberry - FX5")
 with col2:
     st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)
     refresh_button = st.button("↻", help="Atualizar agora", key="refresh_button")
