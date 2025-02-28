@@ -21,6 +21,7 @@ modbus/
 │   ├── config.py          # Configurações do sistema
 │   ├── write_values.py    # Script para escrita de valores no servidor Modbus
 │   └── start_mock_server.py # Servidor Modbus simulado para testes
+├── app.py                 # Aplicação Streamlit para interface web
 ├── modbus_app.log         # Arquivo de log da aplicação
 ├── requirements.txt       # Dependências do projeto
 └── README.md              # Este arquivo
@@ -32,6 +33,8 @@ modbus/
 - Leitura e escrita de holding registers
 - Conversão de tipos de dados (booleanos, inteiros)
 - Servidor Modbus mock para testes sem hardware real
+- Interface web interativa com Streamlit
+- Conexão configurável via interface (host e porta)
 - Sistema de logging para monitoramento e diagnóstico
 
 ## Requisitos
@@ -91,6 +94,14 @@ streamlit run app.py --server.address 0.0.0.0
 firefox http://localhost:8501
 ```
 
+#### Utilizando a Interface Web
+
+1. Ao iniciar a aplicação, você verá campos para configurar o host e porta do servidor Modbus
+2. Insira o endereço IP e porta desejados
+3. Clique no botão "Conect" para estabelecer a conexão
+4. Use o botão de atualização (↻) ao lado para atualizar os valores a qualquer momento
+5. Quando conectado, você poderá visualizar os valores atuais e enviar novos valores através do formulário
+
 ### Executando a Aplicação Principal via Linha de Comando
 
 ```bash
@@ -109,9 +120,6 @@ python3 src/write_values.py --new-ativar true --new-entregar false --new-gaveta 
 ```bash
 # Iniciar o servidor mock na porta padrão (5020)
 python3 src/start_mock_server.py
-
-# Especificar um endereço/porta diferente
-python3 src/start_mock_server.py 192.168.1.100 5000
 ```
 
 ## Configuração VS Code
@@ -122,5 +130,6 @@ O projeto inclui configurações para depuração no VS Code. Você pode iniciar
 
 Os logs da aplicação são armazenados em `modbus_app.log` e contém informações detalhadas sobre a comunicação Modbus, incluindo conexões, leituras, escritas e erros.
 
+## Repositório
 
-github: https://github.com/dmin/modbus
+GitHub: https://github.com/flavioboer9/colmodbus
