@@ -8,16 +8,13 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger(__name__)
 
 # Função para verificar se o servidor Modbus está rodando
-def verificar_conexao_modbus():
+def verificar_conexao_modbus(host="127.0.0.1", port=5020, timeout=1):
     """
     Verifica se o servidor Modbus está rodando.
     
     Returns:
         bool: True se o servidor estiver rodando, False caso contrário
     """
-    host = "127.0.0.1"
-    port = 5020
-    
     print(f"Verificando conexão Modbus em {host}:{port}")
     
     # Criar cliente
@@ -46,16 +43,17 @@ def verificar_conexao_modbus():
         return False
 
 # Função para ler os valores dos registros Modbus
-def ler_registros_modbus():
+def ler_registros_modbus(host="127.0.0.1", port=5020):
     """
     Lê os valores dos registros Modbus do servidor.
+    
+    Args:
+        host (str): Endereço do servidor Modbus
+        port (int): Porta do servidor Modbus
     
     Returns:
         dict: Dicionário com os valores dos registros ou None se ocorrer um erro
     """
-    host = "127.0.0.1"
-    port = 5020
-    
     # Criar cliente
     client = ModbusTcpClient(host=host, port=port)
     
@@ -97,9 +95,17 @@ if 'last_full_refresh' not in st.session_state:
     st.session_state.last_full_refresh = time.time()
     st.session_state.refresh_interval = 30  # segundos
     st.session_state.valores_registros = None
-    st.session_state.servidor_conectado = verificar_conexao_modbus()
+    st.session_state.modbus_host = "127.0.0.1"
+    st.session_state.modbus_port = 5020
+    st.session_state.servidor_conectado = verificar_conexao_modbus(
+        host=st.session_state.modbus_host,
+        port=st.session_state.modbus_port
+    )
     if st.session_state.servidor_conectado:
-        st.session_state.valores_registros = ler_registros_modbus()
+        st.session_state.valores_registros = ler_registros_modbus(
+            host=st.session_state.modbus_host,
+            port=st.session_state.modbus_port
+        )
 
 # Adicionar título e botão de refresh na mesma linha
 col1, col2 = st.columns([0.9, 0.1])
@@ -126,7 +132,14 @@ custom_container = st.container()
 with custom_container:
     # Adicionar o status de conexão
     status_class = "connected" if st.session_state.servidor_conectado else "disconnected"
-    status_text = "Servidor Modbus Conectado" if st.session_state.servidor_conectado else "Servidor Modbus Desconectado"
+    host = st.session_state.modbus_host  # Default host
+    port = st.session_state.modbus_port  # Default port
+    
+    # Definir o texto de status com host e porta
+    if st.session_state.servidor_conectado:
+        status_text = f"Servidor Modbus Conectado ({host}:{port})"
+    else:
+        status_text = f"Servidor Modbus Desconectado ({host}:{port})"
     
     # Exibir o status de conexão
     st.markdown(f'''
@@ -191,9 +204,15 @@ with custom_container:
     
     # Processar o clique no botão de atualização
     if refresh_button:
-        st.session_state.servidor_conectado = verificar_conexao_modbus()
+        st.session_state.servidor_conectado = verificar_conexao_modbus(
+            host=st.session_state.modbus_host,
+            port=st.session_state.modbus_port
+        )
         if st.session_state.servidor_conectado:
-            st.session_state.valores_registros = ler_registros_modbus()
+            st.session_state.valores_registros = ler_registros_modbus(
+                host=st.session_state.modbus_host,
+                port=st.session_state.modbus_port
+            )
         st.rerun()
     
     # Adicionar seção para enviar novos valores para o servidor
@@ -287,7 +306,10 @@ with custom_container:
                         if result.returncode == 0:
                             st.success("Valores enviados com sucesso para o servidor!")
                             # Atualizar os valores exibidos
-                            st.session_state.valores_registros = ler_registros_modbus()
+                            st.session_state.valores_registros = ler_registros_modbus(
+                                host=st.session_state.modbus_host,
+                                port=st.session_state.modbus_port
+                            )
                             st.rerun()
                         else:
                             st.error(f"Erro ao enviar valores: {result.stderr}")
