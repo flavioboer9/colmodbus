@@ -204,7 +204,6 @@ with custom_container:
         # Abrir container com borda para o formulário
         st.markdown('''
         <div class="border-container">
-            <div class="container-title">Novos Valores</div>
         ''', unsafe_allow_html=True)
         
         # Criar formulário para envio de novos valores
